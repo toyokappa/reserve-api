@@ -11,6 +11,8 @@ gem "bootsnap", require: false
 
 gem "rack-cors"
 
+gem "devise_token_auth"
+
 group :development, :test do
   gem 'seed-fu'
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
