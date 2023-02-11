@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Staff < ActiveRecord::Base
+class Customer < ActiveRecord::Base
   extend Devise::Models
 
   # Include default devise modules. Others available are:
@@ -8,6 +8,4 @@ class Staff < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
-
-  has_many :shifts, dependent: :destroy
 end

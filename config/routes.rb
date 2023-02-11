@@ -1,7 +1,19 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'Staff', at: 'staff/auth'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  mount_devise_token_auth_for 'Staff', at: 'staff/auth', controllers: {
+    sessions: 'staff/sessions',
+    token_validations: 'staff/token_validations',
+    passwords: 'staff/passwords',
+  }
+  mount_devise_token_auth_for 'Customer', at: 'customer/auth', controllers: {
+    sessions: 'customer/sessions',
+    token_validations: 'customer/token_validations',
+    passwords: 'customer/passwords',
+  }
+  as :customer do
+    # Define routes for Customer within this block.
+  end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  namespace :staff do
+    resource :shift, only: %i[show update]
+  end
 end
