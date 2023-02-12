@@ -1,8 +1,8 @@
 class Staff::SchedulesController < Staff::ApplicationController
   def index
-    # NOTE: 要件
-    # 1. 次回のスケジュールが表示されていること
-    # 2. 指定された期間のスケジュールが表示されていること
-    @reservations = current_staff.reservations.eager_load(:program, :staff, :guest, :customer)
+    from = Time.zone.parse(params[:start_date]).beginning_of_day
+    to = from.since(6.days).end_of_day
+    reservations = current_staff.reservations.where(scheduled_date: from..to)
+    @reservations = reservations.eager_load(:program, :staff, :guest, :customer)
   end
 end
