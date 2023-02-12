@@ -16,4 +16,8 @@ Rails.application.routes.draw do
   namespace :staff do
     resource :shift, only: %i[show update]
   end
+
+  namespace :customer do
+    resource :reserve_schedule, only: %i[show]
+  end
 end
