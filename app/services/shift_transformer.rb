@@ -7,8 +7,6 @@ class ShiftTransformer
         { date: date.to_s, state_list: encoded_shift_format }
       end
 
-      # 30分のものを除く
-      shifts = shifts.filter {|shift| shift.work_time.to_fs(:time).match?(/.+:00$/) }
       # 日付でグルーピングする
       shifts = shifts.group_by {|shift| shift.work_time.to_fs(:date) }
 
@@ -34,8 +32,6 @@ class ShiftTransformer
         { date: date.to_s, state_list: encoded_reserve_format }
       end
 
-      # 30分のものを除く
-      shifts = shifts.filter {|shift| shift.work_time.to_fs(:time).match?(/.+:00$/) }
       # 日付でグルーピングする
       shifts = shifts.group_by {|shift| shift.work_time.to_fs(:date) }
       # グルーピングされたデータを予約可能な時間でwork, restに振り分ける

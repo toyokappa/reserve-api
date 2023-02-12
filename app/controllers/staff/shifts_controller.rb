@@ -13,13 +13,11 @@ class Staff::ShiftsController < Staff::ApplicationController
     rest_times = ShiftTransformer.decode_to_rest_times(shift_params[:schedule])
 
     work_times_for_input = work_times.sort_by(&:to_datetime).map do |time|
-      # 稼働時間を30分毎に分割
-      Shift.input_times.times.map { |i| { work_time: Time.zone.parse(time) + (Shift::INPUT_INTERVAL * i) } }
-    end.flatten
+      { work_time: Time.zone.parse(time) }
+    end
     rest_times_for_input = rest_times.sort_by(&:to_datetime).map do |time|
-      # 休暇時間をを30分毎に分割
-      Shift.input_times.times.map { |i| Time.zone.parse(time) + (Shift::INPUT_INTERVAL * i) }
-    end.flatten
+      Time.zone.parse(time)
+    end
 
     current_staff.shifts.upsert_all(work_times_for_input)
     current_staff.shifts.where(work_time: rest_times_for_input).destroy_all
