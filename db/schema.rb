@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_11_011813) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_12_014032) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -41,6 +41,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_11_011813) do
     t.index ["email"], name: "index_customers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_customers_on_uid_and_provider", unique: true
+  end
+
+  create_table "programs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.integer "required_time"
+    t.string "description"
+    t.integer "required_ticket"
+    t.integer "publish_target"
+    t.integer "use_limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "shifts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
