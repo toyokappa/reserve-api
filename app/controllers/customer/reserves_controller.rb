@@ -16,6 +16,15 @@ class Customer::ReservesController < Customer::ApplicationController
       guest = Guest.create!(guest_params)
       reservation = Reservation.new(reservation_params)
       reservation.guest = guest
+      if reservation_params[:staff_id].blank?
+        date = Time.zone.parse(reservation_params[:scheduled_date])
+        exclude_dates = [date.ago(Program::INTREVAL_BEFORE), date, date.since(Program::INTREVAL_AFTER)]
+        program = Program.find(reservation_params[:program_id])
+        shift_staffs = program.staffs.joins(:shifts).where(shifts: { work_time: date })
+        reserved_staffs = program.staffs.joins(:reservations).where(reservations: { scheduled_date: exclude_dates })
+        staffs = shift_staffs - reserved_staffs
+        reservation.staff = staffs.sample
+      end
       reservation.save!
     end
   end
