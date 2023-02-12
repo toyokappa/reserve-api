@@ -13,6 +13,6 @@ class Customer::ReserveSchedulesController < Customer::ApplicationController
   private
 
   def reserve_params
-    params.permit(:start_date)
+    params.permit(:start_date, :staff_id)
   end
 end

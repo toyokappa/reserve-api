@@ -5,11 +5,10 @@ class Customer::ReservesController < Customer::ApplicationController
     # TODO: ログイン判定がクライアントに依存しているので時間がある時に修正案を考える
     logged_in = ActiveRecord::Type::Boolean.new.cast(reserve_params[:logged_in])
     if logged_in
-      programs = Program.where(publish_target: 1)
+      @programs = Program.where(publish_target: 1).eager_load(:staffs)
     else
-      programs = Program.where(publish_target: [2, 3])
+      @programs = Program.where(publish_target: [2, 3]).eager_load(:staffs)
     end
-    render json: { program_list: programs }
   end
 
   private

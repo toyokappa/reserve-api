@@ -10,4 +10,5 @@ class Staff < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :shifts, dependent: :destroy
+  has_many :program_staffs, dependent: :destroy
 end

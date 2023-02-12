@@ -7,6 +7,7 @@ class CreateShifts < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :shifts, [:staff_id, :work_time],     unique: true
+    add_index :shifts, :work_time
+    add_index :shifts, [:staff_id, :work_time], unique: true
   end
 end

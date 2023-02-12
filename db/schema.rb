@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_12_014032) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_12_054401) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -43,6 +43,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_12_014032) do
     t.index ["uid", "provider"], name: "index_customers_on_uid_and_provider", unique: true
   end
 
+  create_table "program_staffs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "program_id", null: false
+    t.bigint "staff_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_program_staffs_on_program_id"
+    t.index ["staff_id"], name: "index_program_staffs_on_staff_id"
+  end
+
   create_table "programs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.integer "required_time"
@@ -61,6 +70,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_12_014032) do
     t.datetime "updated_at", null: false
     t.index ["staff_id", "work_time"], name: "index_shifts_on_staff_id_and_work_time", unique: true
     t.index ["staff_id"], name: "index_shifts_on_staff_id"
+    t.index ["work_time"], name: "index_shifts_on_work_time"
   end
 
   create_table "staffs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -90,5 +100,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_12_014032) do
     t.index ["uid", "provider"], name: "index_staffs_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "program_staffs", "programs"
+  add_foreign_key "program_staffs", "staffs"
   add_foreign_key "shifts", "staffs"
 end
