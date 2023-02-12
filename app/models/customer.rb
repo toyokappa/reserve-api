@@ -10,4 +10,8 @@ class Customer < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :reservations, dependent: :destroy
+
+  def full_name
+    "#{last_name} #{first_name}"
+  end
 end

@@ -11,5 +11,5 @@ class Staff < ActiveRecord::Base
 
   has_many :shifts, dependent: :destroy
   has_many :program_staffs, dependent: :destroy
-  has_many :reservationss, dependent: :destroy
+  has_many :reservations, dependent: :destroy
 end

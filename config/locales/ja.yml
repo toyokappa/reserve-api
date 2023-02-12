@@ -1,0 +1,4 @@
+ja:
+  time:
+    formats:
+      date_short: "%-m/%-d(%a)"

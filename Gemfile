@@ -8,6 +8,7 @@ gem "mysql2", "~> 0.5"
 gem "puma", "~> 5.0"
 gem "jbuilder"
 gem "bootsnap", require: false
+gem "rails-i18n"
 
 gem "rack-cors"
 
