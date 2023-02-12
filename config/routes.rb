@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   end
 
   namespace :customer do
-    resource :reserve, only: %i[show]
+    resource :reserve, only: %i[show create]
     resource :reserve_schedule, only: %i[show]
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_12_054401) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_12_070923) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -43,6 +43,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_12_054401) do
     t.index ["uid", "provider"], name: "index_customers_on_uid_and_provider", unique: true
   end
 
+  create_table "guests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "tel"
+    t.string "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_guests_on_email"
+    t.index ["tel"], name: "index_guests_on_tel"
+  end
+
   create_table "program_staffs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "program_id", null: false
     t.bigint "staff_id", null: false
@@ -61,6 +72,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_12_054401) do
     t.integer "use_limit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "reservations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "scheduled_date"
+    t.integer "required_time"
+    t.bigint "program_id", null: false
+    t.bigint "staff_id", null: false
+    t.bigint "customer_id"
+    t.bigint "guest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_reservations_on_customer_id"
+    t.index ["guest_id"], name: "index_reservations_on_guest_id"
+    t.index ["program_id"], name: "index_reservations_on_program_id"
+    t.index ["staff_id"], name: "index_reservations_on_staff_id"
   end
 
   create_table "shifts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -102,5 +128,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_12_054401) do
 
   add_foreign_key "program_staffs", "programs"
   add_foreign_key "program_staffs", "staffs"
+  add_foreign_key "reservations", "customers"
+  add_foreign_key "reservations", "guests"
+  add_foreign_key "reservations", "programs"
+  add_foreign_key "reservations", "staffs"
   add_foreign_key "shifts", "staffs"
 end
