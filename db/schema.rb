@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_12_070923) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_13_040232) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -52,6 +52,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_12_070923) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_guests_on_email"
     t.index ["tel"], name: "index_guests_on_tel"
+  end
+
+  create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "price"
+    t.integer "number_of_ticket"
+    t.integer "days_of_expiration"
+    t.boolean "has_purchase_limit"
+    t.integer "purchase_limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "program_staffs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
