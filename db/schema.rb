@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_13_040232) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_13_053044) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -54,12 +54,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_040232) do
     t.index ["tel"], name: "index_guests_on_tel"
   end
 
-  create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "product_assigns", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "product_set_id", null: false
+    t.bigint "product_item_id", null: false
+    t.integer "price"
+    t.integer "number_of_item"
+    t.integer "days_of_expiration"
+    t.boolean "is_main"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_item_id"], name: "index_product_assigns_on_product_item_id"
+    t.index ["product_set_id"], name: "index_product_assigns_on_product_set_id"
+  end
+
+  create_table "product_items", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.integer "category"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "product_sets", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.integer "price"
-    t.integer "number_of_ticket"
-    t.integer "days_of_expiration"
     t.boolean "has_purchase_limit"
     t.integer "purchase_limit"
     t.datetime "created_at", null: false
@@ -138,6 +156,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_040232) do
     t.index ["uid", "provider"], name: "index_staffs_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "product_assigns", "product_items"
+  add_foreign_key "product_assigns", "product_sets"
   add_foreign_key "program_staffs", "programs"
   add_foreign_key "program_staffs", "staffs"
   add_foreign_key "reservations", "customers"
