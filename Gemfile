@@ -13,6 +13,7 @@ gem "rails-i18n"
 gem "rack-cors"
 
 gem "devise_token_auth"
+gem "payjp"
 
 group :development, :test do
   gem 'seed-fu'
