@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_13_053044) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_13_113224) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -52,6 +52,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_053044) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_guests_on_email"
     t.index ["tel"], name: "index_guests_on_tel"
+  end
+
+  create_table "payjp_customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.string "uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_payjp_customers_on_customer_id"
+    t.index ["uid"], name: "index_payjp_customers_on_uid", unique: true
   end
 
   create_table "product_assigns", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -156,6 +165,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_053044) do
     t.index ["uid", "provider"], name: "index_staffs_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "payjp_customers", "customers"
   add_foreign_key "product_assigns", "product_items"
   add_foreign_key "product_assigns", "product_sets"
   add_foreign_key "program_staffs", "programs"

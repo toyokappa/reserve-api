@@ -21,6 +21,6 @@ Rails.application.routes.draw do
   namespace :customer do
     resource :reserve, only: %i[show create]
     resource :reserve_schedule, only: %i[show]
-    resources :products, only: %i[index show]
+    resources :products, only: %i[index show create]
   end
 end

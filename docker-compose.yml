@@ -26,6 +26,7 @@ services:
       RDB_USERNAME: root
       BASIC_USER: user
       BASIC_PASS: pass
+      PAYJP_API_TOKEN: $PAYJP_API_TOKEN
       MANUAL: $MANUAL
     ports:
       - "7777:3000"
