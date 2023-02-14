@@ -1,4 +1,5 @@
 class Reservation < ApplicationRecord
+  has_many :tickets, dependent: :nullify
   belongs_to :program
   belongs_to :staff
   belongs_to :customer, optional: true
