@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_14_030640) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_14_094055) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -113,6 +113,34 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_14_030640) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "purchase_details", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "product_name"
+    t.integer "amount"
+    t.bigint "purchase_history_id", null: false
+    t.bigint "product_assign_id"
+    t.json "meta"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_assign_id"], name: "index_purchase_details_on_product_assign_id"
+    t.index ["purchase_history_id"], name: "index_purchase_details_on_purchase_history_id"
+  end
+
+  create_table "purchase_histories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "product_set_name"
+    t.integer "total_amount"
+    t.integer "payment_method"
+    t.datetime "purchased_at"
+    t.string "payjp_charge_uid"
+    t.string "payjp_card_uid"
+    t.bigint "product_set_id"
+    t.bigint "customer_id"
+    t.json "meta"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_purchase_histories_on_customer_id"
+    t.index ["product_set_id"], name: "index_purchase_histories_on_product_set_id"
+  end
+
   create_table "reservations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "scheduled_date"
     t.integer "required_time"
@@ -183,6 +211,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_14_030640) do
   add_foreign_key "product_assigns", "product_sets"
   add_foreign_key "program_staffs", "programs"
   add_foreign_key "program_staffs", "staffs"
+  add_foreign_key "purchase_details", "product_assigns"
+  add_foreign_key "purchase_details", "purchase_histories"
+  add_foreign_key "purchase_histories", "customers"
+  add_foreign_key "purchase_histories", "product_sets"
   add_foreign_key "reservations", "customers"
   add_foreign_key "reservations", "guests"
   add_foreign_key "reservations", "programs"

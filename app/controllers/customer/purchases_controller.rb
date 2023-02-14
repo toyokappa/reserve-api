@@ -13,30 +13,61 @@ class Customer::PurchasesController < Customer::ApplicationController
     Payjp.api_key = ENV['PAYJP_API_TOKEN']
     # 顧客を作成
     ActiveRecord::Base.transaction do
-      # payjp_customer = Payjp::Customer.create(
-      #   card: card_params[:token],
-      #   email: current_customer.email,
-      #   description: current_customer.full_name
-      # )
+      if current_customer.payjp_customer.blank?
+        payjp_customer = Payjp::Customer.create(
+          card: purchase_params[:card_token],
+          email: current_customer.email,
+          description: current_customer.full_name
+        )
 
-      # if current_customer.payjp_customer.blank?
-      #   current_customer.create_payjp_customer!(uid: payjp_customer.id)
-      # end
-      # # 決済処理を実行
-      # Payjp::Charge.create(
-      #   amount: payment_params[:amount],
-      #   description: payment_params[:description],
-      #   currency: 'jpy',
-      #   customer: payjp_customer.id
-      # )
+        current_customer.create_payjp_customer!(uid: payjp_customer.id)
+      end
+
+      product_set = ProductSet.find(purchase_params[:product_set_id])
+
+      # 決済処理を実行
+      charge = Payjp::Charge.create(
+        amount: product_set.total_amount,
+        description: product_set.name,
+        currency: 'jpy',
+        customer: current_customer.payjp_customer.uid
+      )
 
       # 購入履歴の作成
-      # チケットの付与
-      expiration = Time.current.end_of_day + ticket_params[:days_of_expiration].days
-      ticket_attrs = ticket_params[:number_of_item].times.map do
+      purchase_history = current_customer.purchase_histories.create!(
+        product_set_name: product_set.name,
+        total_amount: product_set.total_amount,
+        payment_method: :card, # TODO: カード以外の実装が必要なときはここを書き換える
+        purchased_at: Time.current,
+        payjp_charge_uid: charge.id,
+        payjp_card_uid: purchase_params[:card_token],
+        product_set: product_set,
+        meta: {
+          product_set: product_set,
+          payjp_charge: charge,
+        }
+      )
+
+      pd_attrs = product_set.product_assigns.map do |pa|
         {
-          product_set_id: ticket_params[:product_id],
-          name: ticket_params[:name],
+          product_name: pa.is_main? ? product_set.name : pa.product_item.name,
+          amount: pa.price,
+          product_assign_id: pa.id,
+          meta: {
+            product_assign: pa,
+            product_item: pa.product_item
+          }
+        }
+      end
+      purchase_history.purchase_details.insert_all!(pd_attrs)
+
+      # チケットの付与
+      main_product = product_set.product_assigns.find_by(is_main: true)
+      expiration = Time.current.end_of_day + main_product.days_of_expiration.days
+      ticket_attrs = main_product.number_of_item.times.map do
+        {
+          product_set_id: product_set.id,
+          name: product_set.name,
           expiration: expiration,
         }
       end
@@ -46,15 +77,10 @@ class Customer::PurchasesController < Customer::ApplicationController
 
   private
 
-  def card_params
-    params.require(:card).permit(:token)
-  end
-
-  def payment_params
-    params.require(:payment).permit(:amount, :description)
-  end
-
-  def ticket_params
-    params.require(:ticket).permit(:product_id, :name, :number_of_item, :days_of_expiration)
+  def purchase_params
+    params.require(:purchase).permit(
+      :product_set_id,
+      :card_token
+    )
   end
 end
