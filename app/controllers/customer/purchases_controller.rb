@@ -5,8 +5,14 @@ class Customer::PurchasesController < Customer::ApplicationController
   end
 
   def show
+    Payjp.api_key = ENV['PAYJP_API_TOKEN']
+
     @product_set = ProductSet.includes(:product_assigns, :product_items).find(params[:id])
     @main_product = @product_set.product_assigns.find_by(is_main: true)
+    if current_customer.payjp_customer.present?
+      customer = Payjp::Customer.retrieve(current_customer.payjp_customer.uid)
+      @card = customer.cards.retrieve(customer.default_card)
+    end
   end
 
   def create
