@@ -4,7 +4,8 @@ class Ticket < ApplicationRecord
   belongs_to :reservation, optional: true
 
   scope :usable_ticket_set, -> {
-    set_count = where(reservation_id: nil).group(:name, :expiration).count
+    tickets = where(reservation_id: nil).order(expiration: :asc)
+    set_count = tickets.group(:name, :expiration).count
     set_count.map.with_index(1) { |(k, v), i| { id: i, name: k[0], expiration: k[1], number_of_ticket: v } }
   }
 end
