@@ -2,3 +2,9 @@ ja:
   time:
     formats:
       date_short: "%-m/%-d(%a)"
+  enums:
+    purchase_history:
+      payment_method:
+        card: 'クレジットカード支払い'
+        account_transfer: '口座振込'
+        cash: '現金支払い'

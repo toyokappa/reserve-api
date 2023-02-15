@@ -9,6 +9,7 @@ gem "puma", "~> 5.0"
 gem "jbuilder"
 gem "bootsnap", require: false
 gem "rails-i18n"
+gem "enum_help"
 
 gem "rack-cors"
 
