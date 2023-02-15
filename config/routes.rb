@@ -22,5 +22,6 @@ Rails.application.routes.draw do
     resource :reserve, only: %i[show create]
     resource :reserve_schedule, only: %i[show]
     resources :purchases, only: %i[index show create]
+    resources :tickets, only: %i[index]
   end
 end
