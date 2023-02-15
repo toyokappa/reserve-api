@@ -40,7 +40,7 @@ class Customer::PurchasesController < Customer::ApplicationController
         payment_method: :card, # TODO: カード以外の実装が必要なときはここを書き換える
         purchased_at: Time.current,
         payjp_charge_uid: charge.id,
-        payjp_card_uid: purchase_params[:card_token],
+        payjp_card_uid: charge.card.id,
         product_set: product_set,
         meta: {
           product_set: product_set,

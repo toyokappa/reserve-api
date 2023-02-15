@@ -7,8 +7,8 @@ json.product do
   json.product_item_list do
     json.array! @product_set.product_assigns do |pa|
       json.id pa.id
-      json.name(pa.is_main? ? @product_set.name : pa.product_item.name)
-      json.price pa.price
+      json.product_name(pa.is_main? ? @product_set.name : pa.product_item.name)
+      json.amount pa.price
     end
   end
 end
