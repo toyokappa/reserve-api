@@ -6,4 +6,9 @@ class Customer::SchedulesController < Customer::ApplicationController
   def show
     @reservation = current_customer.reservations.find(params[:id])
   end
+
+  def destroy
+    @reservation = current_customer.reservations.find(params[:id])
+    @reservation.destroy
+  end
 end
