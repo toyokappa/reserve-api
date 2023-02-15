@@ -16,7 +16,7 @@ class Customer::ReservesController < Customer::ApplicationController
       reservation = Reservation.new(reservation_params)
       if customer_params.present?
         customer = Customer.find(customer_params[:id])
-        reservation.customer_id = customer
+        reservation.customer = customer
       else
         guest = Guest.create!(guest_params)
         reservation.guest = guest
@@ -33,7 +33,7 @@ class Customer::ReservesController < Customer::ApplicationController
       reservation.save!
       if customer.present?
         tickets = customer.tickets.where(reservation_id: nil).order(:expiration).limit(customer_params[:required_ticket])
-        tickets.update_all!(reservation: reservation)
+        tickets.update_all(reservation_id: reservation.id)
       end
     end
   end
@@ -45,10 +45,10 @@ class Customer::ReservesController < Customer::ApplicationController
   end
 
   def guest_params
-    params.require(:guest).permit(:name, :email, :tel, :message)
+    params.fetch(:guest, {}).permit(:name, :email, :tel, :message)
   end
 
   def customer_params
-    params.require(:customer).permit(:id, :required_ticket)
+    params.fetch(:customer, {}).permit(:id, :required_ticket)
   end
 end
