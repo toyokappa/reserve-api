@@ -13,9 +13,14 @@ class Customer::ReservesController < Customer::ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
-      guest = Guest.create!(guest_params)
       reservation = Reservation.new(reservation_params)
-      reservation.guest = guest
+      if customer_params.present?
+        customer = Customer.find(customer_params[:id])
+        reservation.customer_id = customer
+      else
+        guest = Guest.create!(guest_params)
+        reservation.guest = guest
+      end
       if reservation_params[:staff_id].blank?
         date = Time.zone.parse(reservation_params[:scheduled_date])
         exclude_dates = [date.ago(Program::INTREVAL_BEFORE), date, date.since(Program::INTREVAL_AFTER)]
@@ -26,6 +31,10 @@ class Customer::ReservesController < Customer::ApplicationController
         reservation.staff = staffs.sample
       end
       reservation.save!
+      if customer.present?
+        tickets = customer.tickets.where(reservation_id: nil).order(:expiration).limit(customer_params[:required_ticket])
+        tickets.update_all!(reservation: reservation)
+      end
     end
   end
 
@@ -37,5 +46,9 @@ class Customer::ReservesController < Customer::ApplicationController
 
   def guest_params
     params.require(:guest).permit(:name, :email, :tel, :message)
+  end
+
+  def customer_params
+    params.require(:customer).permit(:id, :required_ticket)
   end
 end
