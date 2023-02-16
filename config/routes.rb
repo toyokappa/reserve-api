@@ -25,5 +25,6 @@ Rails.application.routes.draw do
     resources :tickets, only: %i[index]
     resources :purchase_histories, only: %i[index show]
     resources :schedules, only: %i[index show destroy]
+    resources :notices, only: %i[index]
   end
 end

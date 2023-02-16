@@ -34,6 +34,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_14_094055) do
     t.string "image"
     t.string "id_card"
     t.string "email"
+    t.integer "id_card_status", default: 1
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
