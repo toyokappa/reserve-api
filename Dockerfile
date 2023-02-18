@@ -6,11 +6,11 @@ WORKDIR $APP_ROOT
 
 RUN apt-get update && \
     apt-get -y install build-essential \
-                       libpq-dev \
-                       nodejs \
-                       default-mysql-client \
-                       imagemagick \
-                       --no-install-recommends && \
+    libpq-dev \
+    nodejs \
+    default-mysql-client \
+    imagemagick \
+    --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
 ADD Gemfile $APP_ROOT

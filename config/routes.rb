@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resources :purchase_histories, only: %i[index show]
     resources :schedules, only: %i[index show destroy]
     resources :notices, only: %i[index]
-    resource :cards, only: %i[show create update destroy]
+    resource :card, only: %i[show create update destroy]
+    resource :profile, only: %i[update]
   end
 end

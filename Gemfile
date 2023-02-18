@@ -10,6 +10,7 @@ gem "jbuilder"
 gem "bootsnap", require: false
 gem "rails-i18n"
 gem "enum_help"
+gem "carrierwave"
 
 gem "rack-cors"
 

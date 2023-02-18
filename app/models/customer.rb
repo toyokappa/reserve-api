@@ -14,6 +14,8 @@ class Customer < ActiveRecord::Base
   has_many :purchase_histories, dependent: :nullify
   has_one :payjp_customer, dependent: :destroy
 
+  mount_uploader :image, ImageUploader
+
   enum :id_card_status, { in_review: 1, approved: 2, denied: 3 }
 
   def full_name
