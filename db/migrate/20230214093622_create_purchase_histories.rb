@@ -5,6 +5,10 @@ class CreatePurchaseHistories < ActiveRecord::Migration[7.0]
       t.integer :total_amount
       t.integer :payment_method
       t.datetime :purchased_at
+      t.string :card_number
+      t.string :card_brand
+      t.string :card_expiration
+      t.string :card_owner
       t.string :payjp_charge_uid
       t.string :payjp_card_uid
       t.references :product_set, null: true, foreign_key: true

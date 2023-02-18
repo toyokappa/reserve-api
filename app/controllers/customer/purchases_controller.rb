@@ -45,6 +45,10 @@ class Customer::PurchasesController < Customer::ApplicationController
         total_amount: product_set.total_amount,
         payment_method: :card, # TODO: カード以外の実装が必要なときはここを書き換える
         purchased_at: Time.current,
+        card_number: charge.card.last4,
+        card_brand: charge.card.brand,
+        card_expiration: "#{format('%02<month>d', month: charge.card.exp_month)}/#{charge.card.exp_year}",
+        card_owner: charge.card.name,
         payjp_charge_uid: charge.id,
         payjp_card_uid: charge.card.id,
         product_set: product_set,

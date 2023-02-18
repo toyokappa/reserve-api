@@ -12,9 +12,9 @@ json.purchase_history do
     end
   end
   json.card_info do
-    json.number @card.last4
-    json.brand @card.brand
-    json.expiration "#{format('%02<month>d', month: @card.exp_month)}/#{@card.exp_year}"
-    json.owner @card.name
+    json.number @history.card_number
+    json.brand @history.card_brand
+    json.expiration @history.card_expiration
+    json.owner @history.card_owner
   end
 end
