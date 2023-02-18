@@ -9,6 +9,8 @@ class Staff < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  mount_uploader :image, ImageUploader
+
   has_many :shifts, dependent: :destroy
   has_many :program_staffs, dependent: :destroy
   has_many :reservations, dependent: :destroy

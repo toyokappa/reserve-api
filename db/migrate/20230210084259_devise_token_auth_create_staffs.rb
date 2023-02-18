@@ -34,7 +34,7 @@ class DeviseTokenAuthCreateStaffs < ActiveRecord::Migration[7.0]
       t.string :display_name
       t.string :image
       t.string :email
-      t.string :comment
+      t.string :comment, default: ''
 
       ## Tokens
       t.text :tokens

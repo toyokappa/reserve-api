@@ -188,7 +188,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_14_094055) do
     t.string "display_name"
     t.string "image"
     t.string "email"
-    t.string "comment"
+    t.string "comment", default: ""
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
