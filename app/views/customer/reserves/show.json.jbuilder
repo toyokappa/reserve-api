@@ -15,3 +15,4 @@ json.program_list do
     end
   end
 end
+json.number_of_ticket @number_of_ticket

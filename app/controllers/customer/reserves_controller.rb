@@ -3,9 +3,10 @@ class Customer::ReservesController < Customer::ApplicationController
 
   def show
     # TODO: ログイン判定がクライアントに依存しているので時間がある時に修正案を考える
-    logged_in = ActiveRecord::Type::Boolean.new.cast(params[:logged_in])
-    if logged_in
+    current_customer = Customer.find_by(id: params[:current_customer_id])
+    if current_customer.present?
       @programs = Program.where(publish_target: 1).eager_load(:staffs)
+      @number_of_ticket = current_customer.tickets.usable.length
     else
       @programs = Program.where(publish_target: [2, 3]).eager_load(:staffs)
     end
@@ -32,7 +33,7 @@ class Customer::ReservesController < Customer::ApplicationController
       end
       reservation.save!
       if customer.present?
-        tickets = customer.tickets.where(reservation_id: nil).order(:expiration).limit(customer_params[:required_ticket])
+        tickets = customer.tickets.usable.order(:expiration).limit(customer_params[:required_ticket])
         tickets.update_all(reservation_id: reservation.id)
       end
     end
