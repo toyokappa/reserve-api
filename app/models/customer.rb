@@ -16,8 +16,6 @@ class Customer < ActiveRecord::Base
 
   mount_uploader :image, ImageUploader
 
-  enum :id_card_status, { in_review: 1, approved: 2, denied: 3 }
-
   def full_name
     "#{last_name} #{first_name}"
   end

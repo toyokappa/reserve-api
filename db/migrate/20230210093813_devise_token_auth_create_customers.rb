@@ -38,9 +38,7 @@ class DeviseTokenAuthCreateCustomers < ActiveRecord::Migration[7.0]
       t.string :postcode
       t.string :address
       t.string :image
-      t.string :id_card
       t.string :email
-      t.integer :id_card_status, default: 1
 
       ## Tokens
       t.text :tokens
