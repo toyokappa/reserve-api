@@ -36,6 +36,24 @@ class Customer::ReservesController < Customer::ApplicationController
         tickets = customer.tickets.usable.order(:expiration).limit(customer_params[:required_ticket])
         tickets.update_all(reservation_id: reservation.id)
       end
+
+      name = customer.present? ? customer.full_name : guest.name
+      email = customer.present? ? customer.email : guest.email
+      customer_mailer = Customer::ReserveMailer.with(
+        to: email,
+        name: name,
+        tel: guest&.tel,
+        message: guest&.message,
+        program_name: reservation.program.name,
+        scheduled_date: I18n.l(reservation.scheduled_date, format: :datetime_short),
+        required_time: reservation.required_time,
+        trainer_name: reservation.staff.display_name,
+      )
+      if customer.present?
+        customer_mailer.complete_customer.deliver_now
+      else
+        customer_mailer.complete_guest.deliver_now
+      end
     end
   end
 

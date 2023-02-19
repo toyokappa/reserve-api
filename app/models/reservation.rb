@@ -25,6 +25,7 @@ class Reservation < ApplicationRecord
   def required_number_of_necessary_tickets
     required_ticket = program.required_ticket
     used_ticket = tickets.length
+    return if required_ticket == 0
     return if required_ticket < used_ticket
     
     errors.add(:base, 'お手持ちのチケットの枚数が不足しています')
