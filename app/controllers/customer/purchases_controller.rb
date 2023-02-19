@@ -1,7 +1,13 @@
 class Customer::PurchasesController < Customer::ApplicationController
   def index
-    # TODO: 制限に引っかかったプロダクトを表示しないように実装
-    @product_sets = ProductSet.all.includes(:product_assigns, :product_items)
+    purchase_count = current_customer.purchase_histories.group(:product_set_id).count
+    product_all = ProductSet.all.includes(:product_assigns, :product_items)
+    @product_sets = product_all.filter do |product|
+      next true unless product.has_purchase_limit?
+      next true unless purchase_count[product.id]
+
+      purchase_count[product.id] < product.purchase_limit
+    end
   end
 
   def show
