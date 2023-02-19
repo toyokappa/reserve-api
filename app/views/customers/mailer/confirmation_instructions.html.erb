@@ -1,0 +1,13 @@
+<p><%= @resource.full_name %> さま</p>
+<p>
+この度は会員登録をいただき誠にありがとうございます！<br>
+現在、ご登録状況としては「仮登録状態」となっております。
+</p>
+<p>下記の「会員登録を完了する」をクリックいただき、会員登録を完了させてください。</p>
+<p><%= link_to '会員登録を完了する', confirmation_url(@resource, confirmation_token: @token, config: message['client-config'].to_s, redirect_url: message['redirect-url']).html_safe %></p>
+<p>よろしくお願いいたします。</p>
+<p>トレーニング予約システム</p>
+<p>
+※ このメールに心あたりがない場合は、お手数ですがメールを削除いただくようお願いいたします。<br>
+※ こちらのメールアドレスは送信専用となります。ご返信はできませんのでご了承ください。
+</p>
