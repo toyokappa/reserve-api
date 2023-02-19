@@ -82,6 +82,16 @@ class Customer::PurchasesController < Customer::ApplicationController
         }
       end
       current_customer.tickets.insert_all!(ticket_attrs)
+
+      # メール送信
+      Customer::PurchaseMailer.with(
+        to: current_customer.email,
+        name: current_customer.full_name,
+        product_name: purchase_history.product_set_name,
+        purchased_at: purchase_history.purchased_at.to_fs,
+        total_amount: purchase_history.total_amount.to_fs(:delimited),
+        payment_method: purchase_history.payment_method_i18n,
+      ).complete.deliver_now
     end
   end
 
