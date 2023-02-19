@@ -8,6 +8,7 @@ json.program_list do
     json.trainer_list do
       json.array! program.staffs do |staff|
         json.id staff.id
+        json.image staff.image
         json.name staff.display_name
         json.comment staff.comment
       end
