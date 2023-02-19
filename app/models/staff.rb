@@ -14,4 +14,8 @@ class Staff < ActiveRecord::Base
   has_many :shifts, dependent: :destroy
   has_many :program_staffs, dependent: :destroy
   has_many :reservations, dependent: :destroy
+
+  def full_name
+    "#{last_name} #{first_name}"
+  end
 end

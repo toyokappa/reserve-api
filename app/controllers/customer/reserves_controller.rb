@@ -39,6 +39,7 @@ class Customer::ReservesController < Customer::ApplicationController
 
       name = customer.present? ? customer.full_name : guest.name
       email = customer.present? ? customer.email : guest.email
+      tel = customer.present? ? customer.tel : guest.tel
       customer_mailer = Customer::ReserveMailer.with(
         to: email,
         name: name,
@@ -49,6 +50,15 @@ class Customer::ReservesController < Customer::ApplicationController
         required_time: reservation.required_time,
         trainer_name: reservation.staff.display_name,
       )
+      Staff::ReserveMailer.with(
+        to: reservation.staff.email,
+        name: reservation.staff.full_name,
+        program_name: reservation.program.name,
+        scheduled_date: I18n.l(reservation.scheduled_date, format: :datetime_short),
+        required_time: reservation.required_time,
+        trainee_name: name,
+        tel: tel,
+      ).complete.deliver_now
       if customer.present?
         customer_mailer.complete_customer.deliver_now
       else

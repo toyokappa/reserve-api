@@ -28,7 +28,7 @@ class Reservation < ApplicationRecord
     return if customer.blank?
 
     used_ticket = customer.tickets.usable.length
-    return if required_ticket < used_ticket
+    return if required_ticket <= used_ticket
     
     errors.add(:base, 'お手持ちのチケットの枚数が不足しています')
   end
