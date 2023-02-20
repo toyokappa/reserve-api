@@ -10,7 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_20_094943) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_20_114537) do
+  create_table "coupons", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.integer "discount_amount"
+    t.datetime "expiration"
+    t.integer "use_limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_coupons_on_code", unique: true
+  end
+
+  create_table "customer_coupons", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "coupon_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coupon_id"], name: "index_customer_coupons_on_coupon_id"
+    t.index ["customer_id"], name: "index_customer_coupons_on_customer_id"
+  end
+
   create_table "customer_group_customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "customer_group_id", null: false
     t.bigint "customer_id", null: false
@@ -107,6 +127,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_094943) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "product_set_coupons", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "product_set_id", null: false
+    t.bigint "coupon_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coupon_id"], name: "index_product_set_coupons_on_coupon_id"
+    t.index ["product_set_id"], name: "index_product_set_coupons_on_product_set_id"
+  end
+
   create_table "product_sets", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -165,6 +194,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_094943) do
     t.json "meta"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "coupon_id"
+    t.index ["coupon_id"], name: "index_purchase_histories_on_coupon_id"
     t.index ["customer_id"], name: "index_purchase_histories_on_customer_id"
     t.index ["product_set_id"], name: "index_purchase_histories_on_product_set_id"
   end
@@ -234,6 +265,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_094943) do
     t.index ["reservation_id"], name: "index_tickets_on_reservation_id"
   end
 
+  add_foreign_key "customer_coupons", "coupons"
+  add_foreign_key "customer_coupons", "customers"
   add_foreign_key "customer_group_customers", "customer_groups"
   add_foreign_key "customer_group_customers", "customers"
   add_foreign_key "customer_group_product_sets", "customer_groups"
@@ -241,10 +274,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_094943) do
   add_foreign_key "payjp_customers", "customers"
   add_foreign_key "product_assigns", "product_items"
   add_foreign_key "product_assigns", "product_sets"
+  add_foreign_key "product_set_coupons", "coupons"
+  add_foreign_key "product_set_coupons", "product_sets"
   add_foreign_key "program_staffs", "programs"
   add_foreign_key "program_staffs", "staffs"
   add_foreign_key "purchase_details", "product_assigns"
   add_foreign_key "purchase_details", "purchase_histories"
+  add_foreign_key "purchase_histories", "coupons"
   add_foreign_key "purchase_histories", "customers"
   add_foreign_key "purchase_histories", "product_sets"
   add_foreign_key "reservations", "customers"

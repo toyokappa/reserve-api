@@ -14,6 +14,8 @@ class Customer < ActiveRecord::Base
   has_many :purchase_histories, dependent: :nullify
   has_many :customer_group_customers, dependent: :destroy
   has_many :customer_groups, through: :customer_group_customers
+  has_many :customer_coupons, dependent: :destroy
+  has_many :coupons, through: :customer_coupons
   has_one :payjp_customer, dependent: :destroy
 
   mount_uploader :image, ImageUploader

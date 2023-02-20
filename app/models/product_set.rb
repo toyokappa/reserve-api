@@ -5,6 +5,8 @@ class ProductSet < ApplicationRecord
   has_many :customer_group_product_sets, dependent: :destroy
   has_many :customer_groups, through: :customer_group_product_sets
   has_many :purchase_histories, dependent: :nullify
+  has_many :product_set_coupons, dependent: :destroy
+  has_many :coupons, through: :product_set_coupons
 
   enum :publish_state, { published: 1, unpublished: 2, limited: 3 }
 
