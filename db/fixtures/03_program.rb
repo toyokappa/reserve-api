@@ -1,6 +1,6 @@
 Program.seed_once do |p|
   p.id = 1
-  p.name = '無料カウンセリング'
+  p.name = '無料体験トレーニング'
   p.required_time = 60
   p.description = ''
   p.required_ticket = 0

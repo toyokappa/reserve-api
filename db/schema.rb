@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_14_094055) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_20_090629) do
+  create_table "customer_groups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.bigint "customer_id"
+    t.bigint "product_set_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_customer_groups_on_customer_id"
+    t.index ["product_set_id"], name: "index_customer_groups_on_product_set_id"
+  end
+
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -88,6 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_14_094055) do
     t.string "description"
     t.boolean "has_purchase_limit"
     t.integer "purchase_limit"
+    t.integer "publish_state", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -209,6 +220,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_14_094055) do
     t.index ["reservation_id"], name: "index_tickets_on_reservation_id"
   end
 
+  add_foreign_key "customer_groups", "customers"
+  add_foreign_key "customer_groups", "product_sets"
   add_foreign_key "payjp_customers", "customers"
   add_foreign_key "product_assigns", "product_items"
   add_foreign_key "product_assigns", "product_sets"

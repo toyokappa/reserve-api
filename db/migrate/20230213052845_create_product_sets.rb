@@ -5,6 +5,7 @@ class CreateProductSets < ActiveRecord::Migration[7.0]
       t.string :description
       t.boolean :has_purchase_limit
       t.integer :purchase_limit
+      t.integer :publish_state, default: 1
 
       t.timestamps
     end
