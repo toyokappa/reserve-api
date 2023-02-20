@@ -16,6 +16,7 @@ ProductSet.seed_once do |ps|
   ps.description = 'まずはお試しで利用したい方へ。コース料金とは別に22,000円の入会金もお支払いいただきます。'
   ps.has_purchase_limit = true
   ps.purchase_limit = 1
+  ps.publish_state = :limited
 end
 
 ProductSet.seed_once do |ps|
@@ -24,6 +25,7 @@ ProductSet.seed_once do |ps|
   ps.description = '短期間で引き締まった身体を目指したい方へ。コース料金とは別に22,000円の入会金もお支払いいただきます。'
   ps.has_purchase_limit = true
   ps.purchase_limit = 1
+  ps.publish_state = :limited
 end
 
 ProductSet.seed_once do |ps|
@@ -32,24 +34,28 @@ ProductSet.seed_once do |ps|
   ps.description = 'しっかりと時間を掛けtえプロポーションを改善したい方へ。コース料金とは別に22,000円の入会金もお支払いいただきます。'
   ps.has_purchase_limit = true
   ps.purchase_limit = 1
+  ps.publish_state = :limited
 end
 
 ProductSet.seed_once do |ps|
   ps.id = 4
   ps.name = '継続利用チケット1回分'
   ps.has_purchase_limit = false
+  ps.publish_state = :limited
 end
 
 ProductSet.seed_once do |ps|
   ps.id = 5
   ps.name = '継続利用チケット8回分'
   ps.has_purchase_limit = false
+  ps.publish_state = :limited
 end
 
 ProductSet.seed_once do |ps|
   ps.id = 6
   ps.name = '継続利用チケット16回分'
   ps.has_purchase_limit = false
+  ps.publish_state = :limited
 end
 
 ProductAssign.seed_once do |pa|

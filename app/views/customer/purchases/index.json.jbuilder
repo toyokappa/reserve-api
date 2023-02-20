@@ -10,7 +10,6 @@ json.product_list do
 end
 
 # TODO: 登録URLのQRコード
-# TODO: 限定チケット
 # TODO: トースト
 # TODO: クーポン
 # TODO: 管理画面

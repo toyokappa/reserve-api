@@ -1,8 +1,11 @@
 class Customer::PurchasesController < Customer::ApplicationController
   def index
+    limited_product_ids = current_customer.customer_groups.includes(:product_sets).where(product_sets: { publish_state: :limited }).pluck(:product_set_id)
+    product_published = ProductSet.published.includes(:product_assigns, :product_items)
+    product_published = product_published.or(ProductSet.where(id: limited_product_ids))
+
     purchase_count = current_customer.purchase_histories.group(:product_set_id).count
-    product_all = ProductSet.all.includes(:product_assigns, :product_items)
-    @product_sets = product_all.filter do |product|
+    @product_sets = product_published.filter do |product|
       next true unless product.has_purchase_limit?
       next true unless purchase_count[product.id]
 

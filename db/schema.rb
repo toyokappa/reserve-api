@@ -10,15 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_20_090629) do
-  create_table "customer_groups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name"
-    t.bigint "customer_id"
-    t.bigint "product_set_id"
+ActiveRecord::Schema[7.0].define(version: 2023_02_20_094943) do
+  create_table "customer_group_customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "customer_group_id", null: false
+    t.bigint "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["customer_id"], name: "index_customer_groups_on_customer_id"
-    t.index ["product_set_id"], name: "index_customer_groups_on_product_set_id"
+    t.index ["customer_group_id"], name: "index_customer_group_customers_on_customer_group_id"
+    t.index ["customer_id"], name: "index_customer_group_customers_on_customer_id"
+  end
+
+  create_table "customer_group_product_sets", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "customer_group_id", null: false
+    t.bigint "product_set_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_group_id"], name: "index_customer_group_product_sets_on_customer_group_id"
+    t.index ["product_set_id"], name: "index_customer_group_product_sets_on_product_set_id"
+  end
+
+  create_table "customer_groups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -220,8 +234,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_090629) do
     t.index ["reservation_id"], name: "index_tickets_on_reservation_id"
   end
 
-  add_foreign_key "customer_groups", "customers"
-  add_foreign_key "customer_groups", "product_sets"
+  add_foreign_key "customer_group_customers", "customer_groups"
+  add_foreign_key "customer_group_customers", "customers"
+  add_foreign_key "customer_group_product_sets", "customer_groups"
+  add_foreign_key "customer_group_product_sets", "product_sets"
   add_foreign_key "payjp_customers", "customers"
   add_foreign_key "product_assigns", "product_items"
   add_foreign_key "product_assigns", "product_sets"
