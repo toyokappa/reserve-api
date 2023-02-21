@@ -10,7 +10,6 @@ json.product_list do
 end
 
 # TODO: 登録URLのQRコード
-# TODO: トースト
 # TODO: 管理画面
 #       スタッフの招待
 #       シフト管理
