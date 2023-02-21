@@ -122,6 +122,22 @@ class Customer::PurchasesController < Customer::ApplicationController
         payment_method: purchase_history.payment_method_i18n,
       ).complete.deliver_now
     end
+  rescue => e
+    if e.is_a?(Payjp::CardError)
+      logger.debug e.message
+      case e.message
+      when 'Card declined'
+        message = 'このカードはクレジットカード会社に拒否されました。'
+      when 'Expired Card'
+        message = '有効期限切れのカードです。'
+      when 'The card information you entered is incorrect.'
+        message = 'カード情報に誤りがあります。'
+      else
+        message = 'このカードでは購入ができませんでした。'
+      end
+      return render json: { error: { message: message } }
+    end
+    raise e
   end
 
   private
