@@ -258,6 +258,7 @@ DEPENDENCIES
   devise_token_auth
   enum_help
   jbuilder
+  mini_magick
   mysql2 (~> 0.5)
   payjp
   pry-byebug

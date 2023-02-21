@@ -11,6 +11,7 @@ gem "bootsnap", require: false
 gem "rails-i18n"
 gem "enum_help"
 gem "carrierwave"
+gem "mini_magick"
 gem "slim-rails"
 
 gem "rack-cors"
