@@ -4,6 +4,7 @@ json.product do
   json.category @main_product.product_item.category
   json.number_of_item @main_product.number_of_item
   json.days_of_expiration @main_product.days_of_expiration
+  json.has_usable_coupons @has_usable_coupons
   json.product_item_list do
     json.array! @product_set.product_assigns do |pa|
       json.id pa.id

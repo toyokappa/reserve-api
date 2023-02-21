@@ -174,6 +174,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_114537) do
     t.json "meta"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "coupon_id"
+    t.index ["coupon_id"], name: "index_purchase_details_on_coupon_id"
     t.index ["product_assign_id"], name: "index_purchase_details_on_product_assign_id"
     t.index ["purchase_history_id"], name: "index_purchase_details_on_purchase_history_id"
   end
@@ -278,6 +280,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_114537) do
   add_foreign_key "product_set_coupons", "product_sets"
   add_foreign_key "program_staffs", "programs"
   add_foreign_key "program_staffs", "staffs"
+  add_foreign_key "purchase_details", "coupons"
   add_foreign_key "purchase_details", "product_assigns"
   add_foreign_key "purchase_details", "purchase_histories"
   add_foreign_key "purchase_histories", "coupons"

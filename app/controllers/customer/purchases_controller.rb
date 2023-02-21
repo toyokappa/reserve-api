@@ -18,6 +18,7 @@ class Customer::PurchasesController < Customer::ApplicationController
 
     @product_set = ProductSet.includes(:product_assigns, :product_items).find(params[:id])
     @main_product = @product_set.product_assigns.find_by(is_main: true)
+    @has_usable_coupons = @product_set.coupons.usable(current_customer).present?
     if current_customer.payjp_customer.present?
       customer = Payjp::Customer.retrieve(current_customer.payjp_customer.uid)
       @card = customer.cards.retrieve(customer.default_card)
@@ -39,19 +40,24 @@ class Customer::PurchasesController < Customer::ApplicationController
       end
 
       product_set = ProductSet.find(purchase_params[:product_set_id])
+      coupon = product_set.coupons.usable(current_customer).find_by(id: purchase_params[:coupon_id])
+      total_amount = product_set.total_amount
+      total_amount = total_amount - coupon.discount_amount if coupon.present?
 
       # 決済処理を実行
       charge = Payjp::Charge.create(
-        amount: product_set.total_amount,
+        amount: total_amount,
         description: product_set.name,
         currency: 'jpy',
         customer: current_customer.payjp_customer.uid
       )
 
+      coupon.customers << current_customer if coupon.present?
+
       # 購入履歴の作成
       purchase_history = current_customer.purchase_histories.create!(
         product_set_name: product_set.name,
-        total_amount: product_set.total_amount,
+        total_amount: total_amount,
         payment_method: :card, # TODO: カード以外の実装が必要なときはここを書き換える
         purchased_at: Time.current,
         card_number: charge.card.last4,
@@ -61,8 +67,10 @@ class Customer::PurchasesController < Customer::ApplicationController
         payjp_charge_uid: charge.id,
         payjp_card_uid: charge.card.id,
         product_set: product_set,
+        coupon: coupon,
         meta: {
           product_set: product_set,
+          coupon: coupon,
           payjp_charge: charge,
         }
       )
@@ -72,9 +80,21 @@ class Customer::PurchasesController < Customer::ApplicationController
           product_name: pa.is_main? ? product_set.name : pa.product_item.name,
           amount: pa.price,
           product_assign_id: pa.id,
+          coupon_id: nil,
           meta: {
             product_assign: pa,
-            product_item: pa.product_item
+            product_item: pa.product_item,
+          }
+        }
+      end
+      if coupon.present?
+        pd_attrs << {
+          product_name: coupon.name,
+          amount: -coupon.discount_amount,
+          product_assign_id: nil,
+          coupon_id: coupon.id,
+          meta: {
+            coupon: coupon,
           }
         }
       end
@@ -109,6 +129,7 @@ class Customer::PurchasesController < Customer::ApplicationController
   def purchase_params
     params.require(:purchase).permit(
       :product_set_id,
+      :coupon_id,
       :card_token
     )
   end

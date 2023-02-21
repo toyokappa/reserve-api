@@ -29,5 +29,6 @@ Rails.application.routes.draw do
     resources :schedules, only: %i[index show destroy]
     resource :card, only: %i[show create update destroy]
     resource :profile, only: %i[update]
+    resource :coupon, only: %i[show]
   end
 end

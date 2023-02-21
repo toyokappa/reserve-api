@@ -13,5 +13,6 @@ class CreateCoupons < ActiveRecord::Migration[7.0]
     add_index :coupons, :code, unique: true
 
     add_reference :purchase_histories, :coupon, null: true, foreign_key: true
+    add_reference :purchase_details, :coupon, null: true, foreign_key: true
   end
 end
