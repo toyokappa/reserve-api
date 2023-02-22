@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   }
   mount_devise_token_auth_for 'Customer', at: 'customer/auth', controllers: {
     registrations: 'customer/registrations',
+    confirmations: 'customer/confirmations',
     sessions: 'customer/sessions',
     token_validations: 'customer/token_validations',
     passwords: 'customer/passwords',
