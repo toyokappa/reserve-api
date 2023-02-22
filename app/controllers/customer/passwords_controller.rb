@@ -1,4 +1,4 @@
-class Customer::PasswordsController < DeviseTokenAuth::PasswordsController
+class Customer::PasswordsController < DeviseOverride::PasswordsController
   include TokenUsable
   prepend_before_action :split_tokens
 end
