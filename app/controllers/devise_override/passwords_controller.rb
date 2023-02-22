@@ -28,8 +28,7 @@ class DeviseOverride::PasswordsController < DeviseTokenAuth::PasswordsController
         redirect_headers = build_redirect_headers(token.token,
                                                   token.client,
                                                   redirect_header_options)
-        redirect_to(@resource.build_auth_url(@redirect_url,
-                                              redirect_headers))
+        redirect_to @resource.build_auth_url(@redirect_url, redirect_headers), allow_other_host: true
       end
     else
       render_edit_error
