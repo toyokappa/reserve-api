@@ -95,4 +95,5 @@ Rails.application.configure do
   # Optional configurations.
   config.x.mail.from = "no-reply@#{domain}"
   config.x.mail.bcc = "toyokawa@lixa.jp"
+  config.x.asset_host = "https://api.#{domain}"
 end
