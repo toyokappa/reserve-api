@@ -96,4 +96,5 @@ Rails.application.configure do
   config.x.mail.from = "no-reply@#{domain}"
   config.x.mail.bcc = "toyokawa@lixa.jp"
   config.x.asset_host = "https://api.#{domain}"
+  config.x.cors_origin = "https://#{domain}"
 end
