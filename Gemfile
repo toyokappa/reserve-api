@@ -17,13 +17,13 @@ gem "slim-rails"
 
 gem "rack-cors"
 
+gem 'seed-fu'
 gem "devise_token_auth"
 gem "devise-i18n"
 gem "devise-i18n-views"
 gem "payjp"
 
 group :development, :test do
-  gem 'seed-fu'
   gem "pry-rails"
   gem "pry-byebug"
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
