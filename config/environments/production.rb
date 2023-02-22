@@ -92,6 +92,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # 外部サイトへのリダイレクトを行う際の許可設定
+  config.action_controller.raise_on_open_redirects = true
+
   # Optional configurations.
   config.x.mail.from = "no-reply@#{domain}"
   config.x.mail.bcc = "toyokawa@lixa.jp"
