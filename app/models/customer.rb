@@ -20,7 +20,16 @@ class Customer < ActiveRecord::Base
 
   mount_uploader :image, ImageUploader
 
+  after_create :join_initial_group
+
   def full_name
     "#{last_name} #{first_name}"
+  end
+
+  private
+
+  def join_initial_group
+    # TODO: グループの特定の仕方は考えたほうが良さそう
+    CustomerGroup.first.customers << self
   end
 end
