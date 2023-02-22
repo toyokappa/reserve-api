@@ -22,6 +22,7 @@ gem "devise_token_auth"
 gem "devise-i18n"
 gem "devise-i18n-views"
 gem "payjp"
+gem "rollbar"
 
 group :development, :test do
   gem "pry-rails"

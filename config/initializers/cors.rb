@@ -7,11 +7,13 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    if Rails.env.in? %w[production]
-      origins Rails.configuration.x.cors_origin
-    else
-      origins "*"
-    end
+    # apiに直アクセスするものが動かなくなる
+    # if Rails.env.in? %w[production]
+    #   origins Rails.configuration.x.cors_origin
+    # else
+    #   origins "*"
+    # end
+    origins "*"
 
     resource "*",
       headers: :any,
