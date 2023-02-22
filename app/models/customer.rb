@@ -30,6 +30,9 @@ class Customer < ActiveRecord::Base
 
   def join_initial_group
     # TODO: グループの特定の仕方は考えたほうが良さそう
-    CustomerGroup.first.customers << self
+    group = CustomerGroup.first
+    return if group.blank?
+
+    group.customers << self
   end
 end
