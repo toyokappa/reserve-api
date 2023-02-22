@@ -1,0 +1,120 @@
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@2.0.3
+
+targets: &targets
+  only:
+    - main
+    - develop
+
+defaults: &defaults
+  working_directory: ~/build_work
+
+executors:
+  # test:
+  #   <<: *defaults
+  #   docker:
+  #     - image: cimg/ruby:3.1.2
+  #       environment:
+  #         RDB_HOSTNAME: 127.0.0.1
+  #         RDB_USERNAME: root
+  #         RAILS_ENV: test
+  #     - image: circleci/mysql:5.7
+  #       command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --ft_min_word_len=1
+  #       environment:
+  #         MYSQL_ALLOW_EMPTY_PASSWORD: yes
+  build:
+    <<: *defaults
+    docker:
+      - image: cimg/ruby:3.1.2
+
+commands:
+  bundle_install:
+    steps:
+      - restore_cache:
+          name: Restoring bundle cache
+          keys:
+            - 001-cache-bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - 001-cache-bundle-{{ .Branch }}-
+      - run:
+          name: bundle install
+          command: bundle install --path=~/cache/bundle
+      - save_cache:
+          name: Saving bundle cache
+          key: 001-cache-bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - "~/cache/bundle"
+  build_docker:
+    steps:
+      - restore_cache:
+          name: Restoring docker cache
+          keys:
+            - 001-cache-docker-image-{{ .Branch }}-{{ checksum "deploy/rails/Dockerfile" }}
+            - 001-cache-docker-image-{{ .Branch }}-
+      - run:
+          name: Build docker
+          command: |
+            ./deploy/bin/build_docker.sh $CIRCLE_SHA1 production
+      - save_cache:
+          name: Saving docker image cache
+          key: 001-cache-docker-image-{{ .Branch }}-{{ checksum "deploy/rails/Dockerfile" }}
+          paths:
+            - "~/caches/docker"
+
+jobs:
+  # テストが必要になったら復活
+  # test:
+  #   executor: test
+  #   steps:
+  #     - checkout
+  #     - bundle_install
+  #     - run:
+  #         name: Wait for db
+  #         command: dockerize -wait tcp://localhost:3306 -timeout 1m
+  #     - run:
+  #         name: Setup database
+  #         command: bin/rails db:create && bin/rails db:schema:load --trace
+  #     - run:
+  #         name: Rubocop
+  #         command: bundle exec rubocop
+  #     - run:
+  #         name: Run test
+  #         command: |
+  #           bundle exec rspec --profile 10 \
+  #                             --format RspecJunitFormatter \
+  #                             --out test_results/rpsec.xml \
+  #                             --format progress \
+  #                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+  build:
+    executor: build
+    steps:
+      - checkout
+      - setup_remote_docker
+      - aws-cli/setup
+      - bundle_install
+      - build_docker
+  deploy:
+    executor: build
+    steps:
+      - checkout
+      - aws-cli/setup
+      - run:
+          name: deploy
+          command: |
+            ./deploy/bin/deploy.sh $CIRCLE_SHA1 production
+workflows:
+  version: 2
+  app-build:
+    jobs:
+      # - test
+      - build:
+          filters:
+            branches:
+              <<: *targets
+      - deploy:
+          filters:
+            branches:
+              <<: *targets
+          requires:
+            - build
+            # - test

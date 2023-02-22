@@ -1,0 +1,85 @@
+{
+    "family": "${APP_NAME}-${ENV}-rails",
+    "taskRoleArn": "${APP_NAME}-${ENV}-ecs-task-role",
+    "executionRoleArn": "${APP_NAME}-${ENV}-ecs-execution-role",
+    "containerDefinitions": [
+        {
+            "name": "rails",
+            "image": "${CONTAINER_REGISTRY}/${APP_NAME}-rails:${ENV}_${SHA1}",
+            "cpu": 0,
+            "memory": ${RAILS_MEMORY},
+            "links": [],
+            "essential": true,
+            "entryPoint": [],
+            "command": [
+                "/usr/src/app/bin/start_server.sh"
+            ],
+            "linuxParameters": {
+                "capabilities": {},
+                "devices": []
+            },
+            "environment": [
+            ],
+            "secrets": [
+            ],
+            "privileged": false,
+            "readonlyRootFilesystem": false,
+            "dnsServers": [],
+            "dnsSearchDomains": [],
+            "extraHosts": [],
+            "dockerSecurityOptions": [],
+            "pseudoTerminal": false,
+            "dockerLabels": {},
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "${APP_NAME}-${ENV}-rails-lg",
+                    "awslogs-region": "ap-northeast-1",
+                    "awslogs-stream-prefix": "rails"
+                }
+            }
+        },
+        {
+            "name": "nginx",
+            "image": "${CONTAINER_REGISTRY}/${APP_NAME}-nginx:latest",
+            "cpu": 0,
+            "memory": ${NGINX_MEMORY},
+            "links": ["rails:rails"],
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "entryPoint": [],
+            "command": [],
+            "linuxParameters": {
+                "capabilities": {},
+                "devices": []
+            },
+            "privileged": false,
+            "readonlyRootFilesystem": false,
+            "dnsServers": [],
+            "dnsSearchDomains": [],
+            "extraHosts": [],
+            "dockerSecurityOptions": [],
+            "pseudoTerminal": false,
+            "dockerLabels": {},
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "${APP_NAME}-${ENV}-nginx-lg",
+                    "awslogs-region": "ap-northeast-1",
+                    "awslogs-stream-prefix": "nginx"
+                }
+            }
+        }
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ]
+}
