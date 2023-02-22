@@ -15,13 +15,13 @@ Rails.application.routes.draw do
     # Define routes for Customer within this block.
   end
 
-  namespace :staff, default: { format: 'json' } do
+  namespace :staff, format: 'json' do
     resource :shift, only: %i[show update]
     resources :schedules, only: %i[index]
     resource :profile, only: %i[update]
   end
 
-  namespace :customer, default: { format: 'json' } do
+  namespace :customer, format: 'json' do
     resource :reserve, only: %i[show create]
     resource :reserve_schedule, only: %i[show]
     resources :purchases, only: %i[index show create]
