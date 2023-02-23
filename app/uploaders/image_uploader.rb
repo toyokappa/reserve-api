@@ -1,3 +1,3 @@
 class ImageUploader < ApplicationUploader
-  process resize_to_limit: [600, 600]
+  process resize_to_fit: [600, 600]
 end
