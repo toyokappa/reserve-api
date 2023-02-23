@@ -3,6 +3,6 @@ json.trainer_list do
     json.id trainer.id
     json.name trainer.display_name
     json.image trainer.image
-    json.commet trainer.comment
+    json.comment trainer.comment
   end
 end

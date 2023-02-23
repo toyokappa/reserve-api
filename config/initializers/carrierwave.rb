@@ -9,7 +9,7 @@ CarrierWave.configure do |config|
     }
     config.fog_public = false
     config.fog_directory = "sympl-reserve-api-#{Rails.env}-uploads"
-    config.asset_host = Rails.configuration.x.asset_host
+    config.asset_host = "https://api.sympl.jp" # TODO: 後で変数に戻す
   else
     config.storage = :file
     config.asset_host = 'http://localhost:7777'
