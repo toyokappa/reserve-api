@@ -5,7 +5,7 @@ CarrierWave.configure do |config|
       provider: "AWS",
       use_iam_profile: true,
       region: "ap-northeast-1",
-      # path_style: true,
+      path_style: true,
     }
     config.fog_public = false
     config.fog_directory = "sympl-reserve-api-#{Rails.env}-uploads"
