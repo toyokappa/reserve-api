@@ -10,6 +10,7 @@ json.product_list do
 end
 
 # TODO: 登録URLのQRコード
+# TODO: 戻るUI
 # TODO: 管理画面
 #       顧客管理
 #       シフト管理
