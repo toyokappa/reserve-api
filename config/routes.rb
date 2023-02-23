@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'Staff', at: 'staff/auth', controllers: {
+    registrations: 'admin/staff/registrations',
     sessions: 'staff/sessions',
     token_validations: 'staff/token_validations',
     passwords: 'staff/passwords',
@@ -13,6 +14,10 @@ Rails.application.routes.draw do
   }
   as :customer do
     # Define routes for Customer within this block.
+  end
+
+  namespace :admin, format: 'json' do
+    resources :staffs, only: %i[index]
   end
 
   namespace :staff, format: 'json' do
