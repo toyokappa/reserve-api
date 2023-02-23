@@ -5,11 +5,11 @@ CarrierWave.configure do |config|
       provider: "AWS",
       use_iam_profile: true,
       region: "ap-northeast-1",
-      path_style: true,
+      # path_style: true,
     }
     config.fog_public = false
     config.fog_directory = "sympl-reserve-api-#{Rails.env}-uploads"
-    config.asset_host = "https://api.sympl.jp" # TODO: 後で変数に戻す
+    config.asset_host = Rails.configuration.x.asset_host
   else
     config.storage = :file
     config.asset_host = 'http://localhost:7777'
