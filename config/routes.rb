@@ -18,6 +18,8 @@ Rails.application.routes.draw do
 
   namespace :admin, format: 'json' do
     resources :staffs, only: %i[index]
+    resources :programs, only: %i[index show]
+    resource :program_staff, only: %i[create destroy]
   end
 
   namespace :staff, format: 'json' do
