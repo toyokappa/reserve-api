@@ -13,7 +13,7 @@ class Customer::ReserveSchedulesController < Customer::ApplicationController
       exclude_dates = scheduled_dates.map do |date|
         [date.ago(Program::INTREVAL_BEFORE), date, date.since(Program::INTREVAL_AFTER)]
       end.flatten.uniq
-      shifts += staff.shifts.where(work_time: start_date..end_date).where.not(work_time: exclude_dates)
+      shifts += staff.shifts.with_unreserval.where(work_time: start_date..end_date).where.not(work_time: exclude_dates)
     end
     schedule = ShiftTransformer.encode_for_reserve(shifts.uniq(&:work_time), params[:start_date])
     render json: { reserval_hours_first: Shift::RESERVAL_HOURS_FIRST, schedule: schedule }

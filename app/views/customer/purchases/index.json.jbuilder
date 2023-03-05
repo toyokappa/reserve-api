@@ -9,7 +9,8 @@ json.product_list do
   end
 end
 
-# TODO: 登録URLのQRコード
+# TODO: カードの本番化
+# TODO: ひらがなバリデーション
 # TODO: 戻るUI
 # TODO: 管理画面
 #       顧客管理
