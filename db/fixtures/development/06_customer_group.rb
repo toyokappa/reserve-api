@@ -49,3 +49,21 @@ CustomerGroupProductSet.seed_once do |cgp|
   cgp.customer_group_id = 2
   cgp.product_set_id = 6
 end
+
+CustomerGroupProductSet.seed_once do |cgp|
+  cgp.id = 7
+  cgp.customer_group_id = 2
+  cgp.product_set_id = 7
+end
+
+CustomerGroupProductSet.seed_once do |cgp|
+  cgp.id = 8
+  cgp.customer_group_id = 2
+  cgp.product_set_id = 8
+end
+
+CustomerGroupProductSet.seed_once do |cgp|
+  cgp.id = 9
+  cgp.customer_group_id = 2
+  cgp.product_set_id = 9
+end

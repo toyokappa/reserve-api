@@ -58,6 +58,27 @@ ProductSet.seed_once do |ps|
   ps.publish_state = :limited
 end
 
+ProductSet.seed_once do |ps|
+  ps.id = 7
+  ps.name = '継続利用チケット24回分'
+  ps.has_purchase_limit = false
+  ps.publish_state = :limited
+end
+
+ProductSet.seed_once do |ps|
+  ps.id = 8
+  ps.name = '継続利用チケット32回分'
+  ps.has_purchase_limit = false
+  ps.publish_state = :limited
+end
+
+ProductSet.seed_once do |ps|
+  ps.id = 9
+  ps.name = '継続利用チケット40回分'
+  ps.has_purchase_limit = false
+  ps.publish_state = :limited
+end
+
 ProductAssign.seed_once do |pa|
   pa.id = 1
   pa.product_set_id = 1
@@ -139,5 +160,35 @@ ProductAssign.seed_once do |pa|
   pa.price = 184000
   pa.number_of_item = 16
   pa.days_of_expiration = 135
+  pa.is_main = true
+end
+
+ProductAssign.seed_once do |pa|
+  pa.id = 10
+  pa.product_set_id = 7
+  pa.product_item_id = 1
+  pa.price = 264000
+  pa.number_of_item = 24
+  pa.days_of_expiration = 195
+  pa.is_main = true
+end
+
+ProductAssign.seed_once do |pa|
+  pa.id = 11
+  pa.product_set_id = 8
+  pa.product_item_id = 1
+  pa.price = 336000
+  pa.number_of_item = 32
+  pa.days_of_expiration = 255
+  pa.is_main = true
+end
+
+ProductAssign.seed_once do |pa|
+  pa.id = 12
+  pa.product_set_id = 9
+  pa.product_item_id = 1
+  pa.price = 400000
+  pa.number_of_item = 40
+  pa.days_of_expiration = 315
   pa.is_main = true
 end
