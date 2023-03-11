@@ -29,7 +29,10 @@ class Customer::ReservesController < Customer::ApplicationController
         shift_staffs = program.staffs.joins(:shifts).where(shifts: { work_time: date })
         reserved_staffs = program.staffs.joins(:reservations).where(reservations: { scheduled_date: exclude_dates })
         staffs = shift_staffs - reserved_staffs
-        reservation.staff = staffs.sample
+        staff_ids_with_frequency = staffs.map do |s|
+          s.frequency.times.map { s.id }
+        end.flatten
+        reservation.staff_id = staff_ids_with_frequency.sample
       end
       reservation.save!
       if customer.present?

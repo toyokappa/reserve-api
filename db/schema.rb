@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_20_114537) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_11_094242) do
   create_table "coupons", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "code"
@@ -248,6 +248,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_114537) do
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "frequency", default: 1, null: false
     t.index ["confirmation_token"], name: "index_staffs_on_confirmation_token", unique: true
     t.index ["email"], name: "index_staffs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_staffs_on_reset_password_token", unique: true

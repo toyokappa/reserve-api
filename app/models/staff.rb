@@ -15,6 +15,8 @@ class Staff < ActiveRecord::Base
   has_many :program_staffs, dependent: :destroy
   has_many :reservations, dependent: :destroy
 
+  validates :frequency, numericality: { in: 1..10 }
+
   def full_name
     "#{last_name} #{first_name}"
   end
