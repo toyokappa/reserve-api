@@ -1,3 +1,31 @@
+# == Schema Information
+#
+# Table name: reservations
+#
+#  id             :bigint           not null, primary key
+#  required_time  :integer
+#  scheduled_date :datetime
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  customer_id    :bigint
+#  guest_id       :bigint
+#  program_id     :bigint           not null
+#  staff_id       :bigint           not null
+#
+# Indexes
+#
+#  index_reservations_on_customer_id  (customer_id)
+#  index_reservations_on_guest_id     (guest_id)
+#  index_reservations_on_program_id   (program_id)
+#  index_reservations_on_staff_id     (staff_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (customer_id => customers.id)
+#  fk_rails_...  (guest_id => guests.id)
+#  fk_rails_...  (program_id => programs.id)
+#  fk_rails_...  (staff_id => staffs.id)
+#
 class Reservation < ApplicationRecord
   has_many :tickets, dependent: :nullify
   belongs_to :program

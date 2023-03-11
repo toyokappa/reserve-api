@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: coupons
+#
+#  id              :bigint           not null, primary key
+#  code            :string(255)
+#  discount_amount :integer
+#  expiration      :datetime
+#  name            :string(255)
+#  use_limit       :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_coupons_on_code  (code) UNIQUE
+#
 class Coupon < ApplicationRecord
   has_many :customer_coupons, dependent: :destroy
   has_many :customers, through: :customer_coupons

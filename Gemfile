@@ -25,10 +25,10 @@ gem "payjp"
 gem "rollbar"
 
 group :development, :test do
+  gem "annotate"
   gem "pry-rails"
   gem "pry-byebug"
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
-  
 end
 
 group :development do

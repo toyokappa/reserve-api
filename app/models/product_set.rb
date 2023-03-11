@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: product_sets
+#
+#  id                 :bigint           not null, primary key
+#  description        :string(255)
+#  has_purchase_limit :boolean
+#  name               :string(255)
+#  publish_state      :integer          default("published")
+#  purchase_limit     :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
 class ProductSet < ApplicationRecord
   has_many :product_assigns, dependent: :destroy
   has_many :product_items, through: :product_assigns
