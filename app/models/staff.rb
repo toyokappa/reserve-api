@@ -14,7 +14,7 @@
 #  email                  :string(255)
 #  encrypted_password     :string(255)      default(""), not null
 #  first_name             :string(255)
-#  frequency              :integer          default(1), not null
+#  frequency              :integer          default(5), not null
 #  image                  :string(255)
 #  last_name              :string(255)
 #  provider               :string(255)      default("email"), not null

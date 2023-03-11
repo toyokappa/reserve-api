@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   namespace :admin, format: 'json' do
     resources :customers, only: %i[index show]
     resource :customer_group, only: %i[create destroy]
-    resources :staffs, only: %i[index]
+    resources :staffs, only: %i[index show update]
     resources :programs, only: %i[index show]
     resource :program_staff, only: %i[create destroy]
   end

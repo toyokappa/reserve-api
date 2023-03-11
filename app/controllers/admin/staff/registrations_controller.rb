@@ -13,6 +13,7 @@ class Admin::Staff::RegistrationsController < DeviseTokenAuth::RegistrationsCont
       :comment,
       :email,
       :password,
+      :frequency,
     )
   end
 
