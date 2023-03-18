@@ -48,6 +48,8 @@ class Staff < ActiveRecord::Base
   has_many :shifts, dependent: :destroy
   has_many :program_staffs, dependent: :destroy
   has_many :reservations, dependent: :destroy
+  has_many :training_logs, dependent: :nullify
+  has_many :body_metrics_logs, dependent: :nullify
 
   validates :frequency, numericality: { in: 1..10 }
 

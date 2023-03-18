@@ -3,7 +3,7 @@ class Staff::ShiftsController < Staff::ApplicationController
     from = Time.zone.parse(params[:start_date]).beginning_of_day
     to = from.since(13.days).end_of_day
     shifts = current_staff.shifts.where(work_time: from..to)
-    lock_days = current_staff.reservations.where(scheduled_date: from..to).pluck(:scheduled_date)
+    lock_days = current_staff.reservations.where(scheduled_at: from..to).pluck(:scheduled_at)
     schedule = ShiftTransformer.encode(shifts, lock_days, params[:start_date])
     render json: { reserval_hours_first: Shift::RESERVAL_HOURS_FIRST, schedule: schedule }
   end

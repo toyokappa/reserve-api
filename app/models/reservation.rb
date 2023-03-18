@@ -2,15 +2,15 @@
 #
 # Table name: reservations
 #
-#  id             :bigint           not null, primary key
-#  required_time  :integer
-#  scheduled_date :datetime
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  customer_id    :bigint
-#  guest_id       :bigint
-#  program_id     :bigint           not null
-#  staff_id       :bigint           not null
+#  id            :bigint           not null, primary key
+#  required_time :integer
+#  scheduled_at  :datetime
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  customer_id   :bigint
+#  guest_id      :bigint
+#  program_id    :bigint           not null
+#  staff_id      :bigint           not null
 #
 # Indexes
 #
@@ -36,9 +36,17 @@ class Reservation < ApplicationRecord
   validate :required_either_customer_or_guest
   validate :required_number_of_necessary_tickets
 
+  def scheduled_datetime
+    I18n.l(scheduled_at, format: :datetime_short)
+  end
+
+  def scheduled_date
+    I18n.l(scheduled_at, format: :date_short)
+  end
+
   def scheduled_time
-    from = scheduled_date.to_fs(:time)
-    to = (scheduled_date + required_time.minutes).to_fs(:time)
+    from = scheduled_at.to_fs(:time)
+    to = (scheduled_at + required_time.minutes).to_fs(:time)
     "#{from}~#{to}"
   end
 

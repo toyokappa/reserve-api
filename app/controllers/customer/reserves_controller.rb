@@ -23,11 +23,11 @@ class Customer::ReservesController < Customer::ApplicationController
         reservation.guest = guest
       end
       if reservation_params[:staff_id].blank?
-        date = Time.zone.parse(reservation_params[:scheduled_date])
+        date = Time.zone.parse(reservation_params[:scheduled_at])
         exclude_dates = [date.ago(Program::INTREVAL_BEFORE), date, date.since(Program::INTREVAL_AFTER)]
         program = Program.find(reservation_params[:program_id])
         shift_staffs = program.staffs.joins(:shifts).where(shifts: { work_time: date })
-        reserved_staffs = program.staffs.joins(:reservations).where(reservations: { scheduled_date: exclude_dates })
+        reserved_staffs = program.staffs.joins(:reservations).where(reservations: { scheduled_at: exclude_dates })
         staffs = shift_staffs - reserved_staffs
         staff_ids_with_frequency = staffs.map do |s|
           s.frequency.times.map { s.id }
@@ -49,7 +49,7 @@ class Customer::ReservesController < Customer::ApplicationController
         tel: guest&.tel,
         message: guest&.message,
         program_name: reservation.program.name,
-        scheduled_date: I18n.l(reservation.scheduled_date, format: :datetime_short),
+        scheduled_date: reservation.scheduled_datetime,
         required_time: reservation.required_time,
         trainer_name: reservation.staff.display_name,
       )
@@ -57,7 +57,7 @@ class Customer::ReservesController < Customer::ApplicationController
         to: reservation.staff.email,
         name: reservation.staff.full_name,
         program_name: reservation.program.name,
-        scheduled_date: I18n.l(reservation.scheduled_date, format: :datetime_short),
+        scheduled_date: reservation.scheduled_datetime,
         required_time: reservation.required_time,
         trainee_name: name,
         tel: tel,
@@ -73,7 +73,7 @@ class Customer::ReservesController < Customer::ApplicationController
   private
 
   def reservation_params
-    params.require(:reservation).permit(:program_id, :staff_id, :scheduled_date, :required_time)
+    params.require(:reservation).permit(:program_id, :staff_id, :scheduled_at, :required_time)
   end
 
   def guest_params
