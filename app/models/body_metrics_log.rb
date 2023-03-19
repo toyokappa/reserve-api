@@ -8,7 +8,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  customer_id    :bigint           not null
-#  reservation_id :bigint           not null
+#  reservation_id :bigint
 #  staff_id       :bigint
 #
 # Indexes
@@ -27,4 +27,8 @@ class BodyMetricsLog < ApplicationRecord
   belongs_to :reservation
 
   mount_uploader :photo, ImageUploader
+
+  def logged_date
+    I18n.l(logged_at, format: :date_short)
+  end
 end

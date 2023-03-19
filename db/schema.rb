@@ -14,7 +14,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_18_043238) do
   create_table "body_metrics_logs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.bigint "staff_id"
-    t.bigint "reservation_id", null: false
+    t.bigint "reservation_id"
     t.string "photo"
     t.datetime "logged_at"
     t.datetime "created_at", null: false
@@ -284,7 +284,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_18_043238) do
   create_table "training_logs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.bigint "staff_id"
-    t.bigint "reservation_id", null: false
+    t.bigint "reservation_id"
     t.string "photo"
     t.datetime "logged_at"
     t.datetime "created_at", null: false
