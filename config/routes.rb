@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     resource :shift, only: %i[show update]
     resources :schedules, only: %i[index]
     resource :profile, only: %i[update]
+    resources :customers, only: %i[index show]
+    resources :kartes, only: %i[index create]
   end
 
   namespace :customer, format: 'json' do

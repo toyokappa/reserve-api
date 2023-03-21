@@ -53,6 +53,8 @@ class Customer < ActiveRecord::Base
   has_many :customer_groups, through: :customer_group_customers
   has_many :customer_coupons, dependent: :destroy
   has_many :coupons, through: :customer_coupons
+  has_many :training_logs, dependent: :destroy
+  has_many :body_metrics_logs, dependent: :destroy
   has_one :payjp_customer, dependent: :destroy
 
   mount_uploader :image, ImageUploader

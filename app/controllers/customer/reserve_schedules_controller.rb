@@ -9,7 +9,7 @@ class Customer::ReserveSchedulesController < Customer::ApplicationController
     staffs = [Staff.find(params[:staff_id])] if params[:staff_id].present?
     shifts = []
     staffs.each do |staff|
-      scheduled_dates = staff.reservations.pluck(:scheduled_date)
+      scheduled_dates = staff.reservations.pluck(:scheduled_at)
       exclude_dates = scheduled_dates.map do |date|
         [date.ago(Program::INTREVAL_BEFORE), date, date.since(Program::INTREVAL_AFTER)]
       end.flatten.uniq

@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_11_094242) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_18_043238) do
+  create_table "body_metrics_logs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "staff_id"
+    t.bigint "reservation_id"
+    t.string "photo"
+    t.datetime "logged_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_body_metrics_logs_on_customer_id"
+    t.index ["reservation_id"], name: "index_body_metrics_logs_on_reservation_id"
+    t.index ["staff_id"], name: "index_body_metrics_logs_on_staff_id"
+  end
+
   create_table "coupons", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "code"
@@ -203,7 +216,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_11_094242) do
   end
 
   create_table "reservations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "scheduled_date"
+    t.datetime "scheduled_at"
     t.integer "required_time"
     t.bigint "program_id", null: false
     t.bigint "staff_id", null: false
@@ -268,6 +281,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_11_094242) do
     t.index ["reservation_id"], name: "index_tickets_on_reservation_id"
   end
 
+  create_table "training_logs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "staff_id"
+    t.bigint "reservation_id"
+    t.string "photo"
+    t.datetime "logged_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_training_logs_on_customer_id"
+    t.index ["reservation_id"], name: "index_training_logs_on_reservation_id"
+    t.index ["staff_id"], name: "index_training_logs_on_staff_id"
+  end
+
+  add_foreign_key "body_metrics_logs", "customers"
+  add_foreign_key "body_metrics_logs", "staffs"
   add_foreign_key "customer_coupons", "coupons"
   add_foreign_key "customer_coupons", "customers"
   add_foreign_key "customer_group_customers", "customer_groups"
@@ -295,4 +323,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_11_094242) do
   add_foreign_key "tickets", "customers"
   add_foreign_key "tickets", "product_sets"
   add_foreign_key "tickets", "reservations"
+  add_foreign_key "training_logs", "customers"
+  add_foreign_key "training_logs", "staffs"
 end
