@@ -16,9 +16,11 @@ class Staff::KartesController < Staff::ApplicationController
   end
 
   def update
+    # TODO: 後ほど実装
   end
 
   def destroy
+    # TODO: 後ほど実装
   end
 
   private
