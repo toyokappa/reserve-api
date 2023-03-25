@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :staffs, only: %i[index show update destroy]
     resources :programs, only: %i[index show]
     resource :program_staff, only: %i[create destroy]
+    resources :coupons, only: %i[index]
   end
 
   namespace :staff, format: 'json' do
