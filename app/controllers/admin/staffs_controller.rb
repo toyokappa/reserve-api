@@ -12,6 +12,11 @@ class Admin::StaffsController < Admin::ApplicationController
     trainer.update(trainer_params)
   end
 
+  def destroy
+    trainer = Staff.find(params[:id])
+    trainer.destroy
+  end
+
   private
 
   def trainer_params
