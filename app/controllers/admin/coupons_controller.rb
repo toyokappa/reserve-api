@@ -4,6 +4,9 @@ class Admin::CouponsController < Admin::ApplicationController
   end
 
   def show
+    @coupon = Coupon.find(params[:id])
+    @assigned_products = @coupon.product_sets
+    @unassigned_products = ProductSet.where.not(id: @assigned_products)
   end
 
   def create
