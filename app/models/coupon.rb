@@ -23,6 +23,8 @@ class Coupon < ApplicationRecord
   has_many :purchase_histories, dependent: :nullify
   has_many :purchase_details, dependent: :nullify
 
+  validates :code, presence: true, uniqueness: true
+
   scope :usable, -> (customer) {
     used_coupon_count = customer.coupons.group(:id).count
     usable_ids = self.filter do |coupon|
